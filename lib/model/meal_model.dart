@@ -1,0 +1,19 @@
+class MealModel {
+  final String id;
+  final String name;
+  final String image;
+
+  MealModel({
+    required this.id,
+    required this.name,
+    required this.image,
+  });
+
+  factory MealModel.fromJson(Map<String, dynamic> json) {
+    return MealModel(
+      id: json['idMeal']?.toString() ?? "",
+      name: json['strMeal']?.toString() ?? "",
+      image: json['strMealThumb']?.toString() ?? "",
+    );
+  }
+}
