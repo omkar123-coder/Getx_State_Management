@@ -13,8 +13,7 @@ class MealController extends GetxController {
     isLoading = true;
     update();
 
-    final response =
-        await apiService.getApi("${ApiConstants.filterByCategory}$category");
+    final response =   await apiService.getApi("${ApiConstants.filterByCategory}$category");
     meals = ((response['meals'] ?? []) as List)
         .map((e) => MealModel.fromJson(e))
         .toList();

@@ -10,12 +10,6 @@ class CategoryController extends GetxController {
 
   List<CategoryModel> categories = [];
 
-  @override
-  void onInit() {
-    getcategories();
-    super.onInit();
-  }
-
   Future<void> getcategories() async {
     isLoading = true;
     update();

@@ -6,11 +6,23 @@ import 'package:getx_state_management/screens/meal_details_screen.dart';
 import 'package:getx_state_management/screens/meal_list_screen.dart';
 import 'package:getx_state_management/screens/search_screen.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final CategoryController controller = Get.put(CategoryController());
+
   final RandomMealController randomController = Get.put(RandomMealController());
+
+  @override
+  void initState() {
+    super.initState();
+    controller.getcategories();
+  }
 
   @override
   Widget build(BuildContext context) {

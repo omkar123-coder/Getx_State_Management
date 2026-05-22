@@ -4,6 +4,7 @@ import 'package:getx_state_management/screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
+  //
 }
 
 class MyApp extends StatelessWidget {
