@@ -3,12 +3,26 @@ import 'package:get/get.dart';
 import 'package:getx_state_management/controller/search_controller.dart';
 import 'package:getx_state_management/screens/meal_details_screen.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
   SearchScreen({super.key});
 
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
   final SearchMealController controller = Get.put(SearchMealController());
 
   final TextEditingController searchController = TextEditingController();
+
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      controller.searchMeal('mealName');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

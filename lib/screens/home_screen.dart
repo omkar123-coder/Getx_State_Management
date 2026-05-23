@@ -21,8 +21,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
     controller.getcategories();
-  }
+        },
+      );
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -32,26 +35,28 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Get.to(() => SearchScreen());
+              Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen()));
+              // Navigator.push(() => SearchScreen());
             },
             icon: const Icon(Icons.search),
           ),
-          IconButton(
+
+          IconButton( 
             onPressed: () async {
               await randomController.getRandomMeal();
-
               final meal = randomController.randomMeal;
-
-              Get.to(
-                () => MealDetailScreen(
+              Navigator.push(context, MaterialPageRoute(
+                builder: (_)=> MealDetailScreen(
                   mealId: meal['idMeal'],
-                ),
+                  )
+                )
               );
             },
             icon: const Icon(Icons.shuffle),
           ),
         ],
       ),
+
       body: GetBuilder<CategoryController>(builder: (controller) {
         if (controller.isLoading) {
           return const Center(
@@ -71,9 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               title: Text(category.name),
               onTap: () {
-                Get.to(() => MealListScreen(
-                      category: category.name,
-                    ));
+                    Navigator.push(context, MaterialPageRoute(builder: (_)=> MealListScreen(category: category.name,)));
               },
             );
           },

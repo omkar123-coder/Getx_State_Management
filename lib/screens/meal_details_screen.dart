@@ -3,19 +3,32 @@ import 'package:get/get.dart';
 import 'package:getx_state_management/controller/meal_detail_controller.dart';
 import 'package:share_plus/share_plus.dart';
 
-class MealDetailScreen extends StatelessWidget {
+class MealDetailScreen extends StatefulWidget {
   final String mealId;
 
-  MealDetailScreen({
+  const MealDetailScreen({
     super.key,
     required this.mealId,
   });
 
+  @override
+  State<MealDetailScreen> createState() => _MealDetailScreenState();
+}
+
+class _MealDetailScreenState extends State<MealDetailScreen> {
   final MealDetailController controller = Get.put(MealDetailController());
+
+@override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      controller.getMealDetail('idMeal');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    controller.getMealDetail(mealId);
+    controller.getMealDetail(widget.mealId);
 
     return Scaffold(
       appBar: AppBar(

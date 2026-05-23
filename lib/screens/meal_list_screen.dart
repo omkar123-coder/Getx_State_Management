@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_state_management/controller/meal_controller.dart';
@@ -22,7 +20,8 @@ class _MealListScreenState extends State<MealListScreen> {
 
   @override
   void initState() {
-    Timer.run(() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
       controller.getMeals(widget.category);
     });
   }
