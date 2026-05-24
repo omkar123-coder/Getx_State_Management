@@ -63,24 +63,50 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }
 
-        return ListView.builder(
+        return GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
           itemCount: controller.categories.length,
           itemBuilder: (context, index) {
             final category = controller.categories[index];
-
-            return ListTile(
-              leading: SizedBox(
-                height: 50,
-                width: 50,
-                child: CachedNetworkImage(
-                  imageUrl: category.image,
+        return Card(
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => MealListScreen(
+                    category: category.name,
                 ),
               ),
-              title: Text(category.name),
-              onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (_)=> MealListScreen(category: category.name,)));
-              },
             );
+          },
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 80,
+                width: 80,
+                child: CachedNetworkImage(
+                  imageUrl: category.image,
+                  fit: BoxFit.cover,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Text(
+                category.name,
+                textAlign: TextAlign.center,
+              ),
+
+            ],
+          ),
+        ),
+      );
           },
         );
       }),

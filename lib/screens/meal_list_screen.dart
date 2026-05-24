@@ -41,30 +41,48 @@ class _MealListScreenState extends State<MealListScreen> {
             );
           }
 
-          return ListView.builder(
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
             itemCount: controller.meals.length,
             itemBuilder: (context, index) {
               final meal = controller.meals[index];
-
-              return ListTile(
-                leading: CachedNetworkImage(
-                  imageUrl: meal.image,
-                  height: 50,
-                  width: 50,
-                ),
-                title: Text(meal.name),
-                onTap: () {
-                  Get.to(
-                    () => MealDetailScreen(
-                      mealId: meal.id,
-                    ),
-                  );
-                },
-              );
-            },
-          );
+      return Card(
+        child: InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_)=> MealDetailScreen(mealId: meal.id)));
         },
+
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+            CachedNetworkImage(
+              imageUrl: meal.image,
+              height: 100,
+              width: 100,
+              fit: BoxFit.cover,
+            ),
+
+            const SizedBox(height: 10),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                meal.name,
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+          ],
+        ),
       ),
     );
+        },
+      );},
+    ));
   }
 }
