@@ -1,20 +1,19 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_state_management/controller/search_controller.dart';
 import 'package:getx_state_management/screens/meal_details_screen.dart';
 
 class SearchScreen extends StatefulWidget {
-  SearchScreen({super.key});
+ const SearchScreen({super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final SearchMealController controller = Get.put(SearchMealController());
-
+  final SearchMealController controller = Get.find<SearchMealController>();
   final TextEditingController searchController = TextEditingController();
-
 
   @override
   void initState() {
@@ -64,9 +63,9 @@ class _SearchScreenState extends State<SearchScreen> {
                       final meal = controller.meals[index];
 
                       return ListTile(
-                        leading: Image.network(
-                          meal.image,
-                          width: 50,
+                        leading: CachedNetworkImage(
+                          imageUrl: meal.image,
+                          memCacheWidth: 50,
                         ),
                         title: Text(meal.name),
                         onTap: () {

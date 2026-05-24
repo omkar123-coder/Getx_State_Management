@@ -1,10 +1,11 @@
 import 'package:get/get.dart';
 import 'package:getx_state_management/constant/api_constants.dart';
+import 'package:getx_state_management/model/meal_model.dart';
 import 'package:getx_state_management/service/api_service.dart';
 
 class RandomMealController extends GetxController {
   final ApiService apiService = ApiService();
-  late Map<String, dynamic> randomMeal;
+  late MealModel randomMeal;
   bool isLoading = false;
 
   Future<void> getRandomMeal() async {
@@ -12,7 +13,7 @@ class RandomMealController extends GetxController {
     update();
 
     final response = await apiService.getApi(ApiConstants.randomMeal);
-    randomMeal = response['meals'][0];
+    randomMeal = MealModel.fromJson(response['meals'][0]);
 
     isLoading = false;
     update();

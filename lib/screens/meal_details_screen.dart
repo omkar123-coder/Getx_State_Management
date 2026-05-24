@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_state_management/controller/meal_detail_controller.dart';
@@ -16,20 +17,18 @@ class MealDetailScreen extends StatefulWidget {
 }
 
 class _MealDetailScreenState extends State<MealDetailScreen> {
-  final MealDetailController controller = Get.put(MealDetailController());
+  final MealDetailController controller = Get.find<MealDetailController>();
 
 @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_){
-      controller.getMealDetail('idMeal');
+      controller.getMealDetail(widget.mealId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    controller.getMealDetail(widget.mealId);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Meal Detail"),
@@ -56,26 +55,24 @@ class _MealDetailScreenState extends State<MealDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.network(
-                    meal['strMealThumb'],
+                  CachedNetworkImage(
+                    imageUrl: meal.image,
                   ),
                   const SizedBox(height: 15),
                   Text(
-                    meal['strMeal'],
+                    meal.name,
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    meal['strInstructions'] ?? "",
-                  ),
+                  Text(meal.instructions),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       Share.share(
-                        meal['strMeal'],
+                        meal.name,
                       );
                     },
                     child: const Text("Share Meal"),

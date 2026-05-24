@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_state_management/controller/category_controller.dart';
@@ -14,9 +15,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final CategoryController controller = Get.put(CategoryController());
-
-  final RandomMealController randomController = Get.put(RandomMealController());
+  final CategoryController controller = Get.find<CategoryController>();
+  final RandomMealController randomController = Get.find<RandomMealController>();
 
   @override
   void initState() {
@@ -36,7 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen()));
-              // Navigator.push(() => SearchScreen());
             },
             icon: const Icon(Icons.search),
           ),
@@ -47,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
               final meal = randomController.randomMeal;
               Navigator.push(context, MaterialPageRoute(
                 builder: (_)=> MealDetailScreen(
-                  mealId: meal['idMeal'],
+                  mealId: meal.id,
                   )
                 )
               );
@@ -70,9 +69,12 @@ class _HomeScreenState extends State<HomeScreen> {
             final category = controller.categories[index];
 
             return ListTile(
-              leading: Image.network(
-                category.image,
+              leading: SizedBox(
+                height: 50,
                 width: 50,
+                child: CachedNetworkImage(
+                  imageUrl: category.image,
+                ),
               ),
               title: Text(category.name),
               onTap: () {

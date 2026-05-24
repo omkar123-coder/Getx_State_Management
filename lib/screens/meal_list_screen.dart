@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_state_management/controller/meal_controller.dart';
@@ -16,7 +17,7 @@ class MealListScreen extends StatefulWidget {
 }
 
 class _MealListScreenState extends State<MealListScreen> {
-  final MealController controller = Get.put(MealController());
+  final MealController controller = Get.find<MealController>();
 
   @override
   void initState() {
@@ -46,8 +47,9 @@ class _MealListScreenState extends State<MealListScreen> {
               final meal = controller.meals[index];
 
               return ListTile(
-                leading: Image.network(
-                  meal.image,
+                leading: CachedNetworkImage(
+                  imageUrl: meal.image,
+                  height: 50,
                   width: 50,
                 ),
                 title: Text(meal.name),
