@@ -16,16 +16,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final CategoryController controller = Get.find<CategoryController>();
-  final RandomMealController randomController = Get.find<RandomMealController>();
+  final RandomMealController randomController =
+      Get.find<RandomMealController>();
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){
-    controller.getcategories();
-        },
-      );
-    }
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        controller.getCategories();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,34 +37,32 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_)=> SearchScreen()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => SearchScreen()));
             },
             icon: const Icon(Icons.search),
           ),
-
-          IconButton( 
+          IconButton(
             onPressed: () async {
               await randomController.getRandomMeal();
               final meal = randomController.randomMeal;
-              Navigator.push(context, MaterialPageRoute(
-                builder: (_)=> MealDetailScreen(
-                  mealId: meal.id,
-                  )
-                )
-              );
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => MealDetailScreen(
+                            mealId: meal.id,
+                )));
             },
             icon: const Icon(Icons.shuffle),
           ),
         ],
       ),
-
       body: GetBuilder<CategoryController>(builder: (controller) {
         if (controller.isLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-
         return GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -72,41 +72,38 @@ class _HomeScreenState extends State<HomeScreen> {
           itemCount: controller.categories.length,
           itemBuilder: (context, index) {
             final category = controller.categories[index];
-        return Card(
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => MealListScreen(
-                    category: category.name,
+            return Card(
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => MealListScreen(
+                        category: category.name,
+                      ),
+                    ),
+                  );
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 80,
+                      width: 80,
+                      child: CachedNetworkImage(
+                        imageUrl: category.image,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      category.name,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               ),
             );
-          },
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 80,
-                width: 80,
-                child: CachedNetworkImage(
-                  imageUrl: category.image,
-                  fit: BoxFit.cover,
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              Text(
-                category.name,
-                textAlign: TextAlign.center,
-              ),
-
-            ],
-          ),
-        ),
-      );
           },
         );
       }),

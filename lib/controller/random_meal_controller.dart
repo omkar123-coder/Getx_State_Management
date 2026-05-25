@@ -7,6 +7,8 @@ class RandomMealController extends GetxController {
   final ApiService apiService = ApiService();
   late MealModel randomMeal;
   bool isLoading = false;
+  String error = '';
+
 
   Future<void> getRandomMeal() async {
     isLoading = true;

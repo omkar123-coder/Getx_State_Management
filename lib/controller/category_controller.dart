@@ -10,15 +10,21 @@ class CategoryController extends GetxController {
 
   List<CategoryModel> categories = [];
 
-  Future<void> getcategories() async {
-    isLoading = true;
-    update();
+  String error = '';
 
-    final response = await apiService.getApi(ApiConstants.categories);
+  Future<void> getCategories() async {
+    try {
+      isLoading = true;
+      update();
 
-    categories = ((response['categories'] ?? []) as List)
-        .map((e) => CategoryModel.fromJson(e))
-        .toList();
+      final response = await apiService.getApi(ApiConstants.categories);
+
+      categories = ((response['categories'] ?? []) as List)
+          .map((e) => CategoryModel.fromJson(e))
+          .toList();
+    } catch (e) {
+      Get.snackbar('title', error);
+    }
     isLoading = false;
     update();
   }

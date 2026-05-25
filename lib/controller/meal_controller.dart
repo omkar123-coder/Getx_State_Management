@@ -9,12 +9,21 @@ class MealController extends GetxController {
 
   List<MealModel> meals = [];
 
-  Future<void> getMeals(String category) async {
-    isLoading = true;
-    update();
+  String error = '';
 
-    final response =   await apiService.getApi("${ApiConstants.filterByCategory}$category");
-    meals = ((response['meals'] ?? []) as List).map((e) => MealModel.fromJson(e)).toList();
+  Future<void> getMeals(String category) async {
+    try {
+      isLoading = true;
+      update();
+
+      final response =
+          await apiService.getApi("${ApiConstants.filterByCategory}$category");
+      meals = ((response['meals'] ?? []) as List)
+          .map((e) => MealModel.fromJson(e))
+          .toList();
+    } catch (e) {
+      Get.snackbar('Title', error);
+    }
     isLoading = false;
     update();
   }

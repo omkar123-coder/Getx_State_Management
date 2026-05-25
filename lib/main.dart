@@ -8,7 +8,7 @@ import 'package:getx_state_management/controller/search_controller.dart';
 import 'package:getx_state_management/screens/login_screen.dart';
 
 void main() {
-  Get.lazyPut(()=> CategoryController());
+  Get.lazyPut(() => CategoryController());
   Get.lazyPut(() => RandomMealController());
   Get.lazyPut(() => MealController());
   Get.lazyPut(() => MealDetailController());
@@ -27,5 +27,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// exception was thrown: "MealDetailController" not found. You need to call "Get.put(MealDetailController())" or "Get.lazyPut(()=>MealDetailController())"

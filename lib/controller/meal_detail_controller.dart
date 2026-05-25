@@ -6,19 +6,23 @@ import 'package:getx_state_management/service/api_service.dart';
 class MealDetailController extends GetxController {
   final ApiService apiService = ApiService();
   MealModel? meal;
-
   bool isLoading = false;
 
+  String error = '';
+
   Future<void> getMealDetail(String id) async {
-    isLoading = true;
-    update();
+    try {
+      isLoading = true;
+      update();
 
-    final response = await apiService.getApi(
-      "${ApiConstants.mealDetail}$id",
-    );
+      final response = await apiService.getApi(
+        "${ApiConstants.mealDetail}$id",
+      );
 
-    meal = MealModel.fromJson(response['meals'][0]);
-
+      meal = MealModel.fromJson(response['meals'][0]);
+    } catch (e) {
+      Get.snackbar('title', error);
+    }
     isLoading = false;
     update();
   }
